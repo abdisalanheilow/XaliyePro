@@ -1,0 +1,26 @@
+﻿
+   INFO  Running migrations.  
+
+  2026_03_13_172012_add_missing_indexes_to_erp_tables  0.62ms FAIL
+
+   BadMethodCallException 
+
+  Method Illuminate\Database\MySqlConnection::getDoctrineSchemaManager does not exist.
+
+  at vendor\laravel\framework\src\Illuminate\Macroable\Traits\Macroable.php:115
+    111Γûò      */
+    112Γûò     public function __call($method, $parameters)
+    113Γûò     {
+    114Γûò         if (! static::hasMacro($method)) {
+  Γ₧£ 115Γûò             throw new BadMethodCallException(sprintf(
+    116Γûò                 'Method %s::%s does not exist.', static::class, $method
+    117Γûò             ));
+    118Γûò         }
+    119Γûò
+
+  1   database\migrations\2026_03_13_172012_add_missing_indexes_to_erp_tables.php:14
+      Illuminate\Database\Connection::__call("getDoctrineSchemaManager", [])
+
+  2   vendor\laravel\framework\src\Illuminate\Database\Migrations\Migrator.php:517
+      Illuminate\Database\Migrations\Migration@anonymous\D:\ERPInventory\database\migrations\2026_03_13_172012_add_missing_indexes_to_erp_tables.php:7$107::up()
+

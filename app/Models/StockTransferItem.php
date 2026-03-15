@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @mixin \Illuminate\Database\Eloquent\Builder
+ */
+class StockTransferItem extends Model
+{
+    protected $fillable = [
+        'stock_transfer_id',
+        'item_id',
+        'quantity',
+    ];
+
+    public function transfer()
+    {
+        return $this->belongsTo(StockTransfer::class, 'stock_transfer_id');
+    }
+
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
+}
