@@ -4,9 +4,9 @@
     x-cloak>
     <!-- Logo Section -->
     @php
-        $companyName = $companySettings->company_name ?? 'XaliyePro';
+        $companyName = $companySettings?->company_name ?? 'XaliyePro';
         $initials = collect(explode(' ', $companyName))->map(fn($w) => strtoupper($w[0] ?? ''))->take(2)->implode('');
-        $logoPath = ($companySettings->logo ?? null) && file_exists(public_path($companySettings->logo))
+        $logoPath = ($companySettings?->logo ?? null) && file_exists(public_path($companySettings->logo))
             ? asset($companySettings->logo) : null;
     @endphp
     <div
