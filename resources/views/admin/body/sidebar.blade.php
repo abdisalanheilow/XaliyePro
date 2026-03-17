@@ -1,6 +1,6 @@
     <!-- Sidebar Container -->
     <aside 
-        class="fixed inset-y-0 left-0 w-64 bg-white shadow-xl flex flex-col border-r border-gray-200 z-50 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 lg:shadow-none"
+        class="fixed inset-y-0 left-0 w-64 bg-white shadow-xl flex flex-col border-r border-gray-200 z-50 transition-transform duration-300 ease-in-out lg:static lg:translate-x-0 lg:shadow-none h-screen"
         :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
         x-cloak>
     <!-- Logo Section -->
