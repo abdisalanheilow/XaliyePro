@@ -137,7 +137,7 @@
 </head>
 
 <body class="bg-gray-100" x-data="{ sidebarOpen: false }">
-    <div class="flex h-screen overflow-hidden bg-gray-100">
+    <div class="flex h-screen overflow-hidden bg-gray-50">
         <!-- Mobile Overlay -->
         <div x-show="sidebarOpen" 
              x-cloak
@@ -148,21 +148,23 @@
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0"
              @click="sidebarOpen = false"
-             class="fixed inset-0 bg-black/50 z-40 lg:hidden">
+             class="fixed inset-0 bg-black/60 z-40 lg:hidden">
         </div>
 
         <!-- Sidebar -->
         @include('admin.body.sidebar')
 
-        <!-- Main Content -->
-        <div class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col min-w-0 min-h-0 overflow-hidden relative">
             <!-- Header -->
             @include('admin.body.header')
 
-            <!-- Page Content -->
-            <main class="flex-1 overflow-y-auto bg-gray-100 p-4 lg:p-6 custom-scrollbar">
-                @include('admin.body.notifications')
-                @yield('admin')
+            <!-- Page Content Scroll Area -->
+            <main class="flex-1 overflow-y-auto bg-gray-100 scroll-smooth">
+                <div class="p-4 lg:p-6 pb-20">
+                    @include('admin.body.notifications')
+                    @yield('admin')
+                </div>
             </main>
         </div>
     </div>
