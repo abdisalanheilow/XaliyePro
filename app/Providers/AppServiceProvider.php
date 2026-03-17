@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('admin.body.header', function ($view) {
+        View::composer(['admin.body.header', 'admin.body.sidebar'], function ($view) {
             if (Auth::check()) {
                 $user = Auth::user();
 

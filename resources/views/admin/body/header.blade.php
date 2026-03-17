@@ -1,32 +1,53 @@
-<header class="h-16 bg-white shadow-sm border-b border-gray-200 flex items-center justify-between px-6">
+<header class="h-16 bg-white shadow-sm border-b border-gray-200 flex items-center justify-between px-4 lg:px-6">
     <div class="flex items-center gap-4">
-        <!-- Branch Selector -->
-        <div class="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-lg">
-            <i data-lucide="building-2" class="w-4 h-4 text-gray-500"></i>
-            <span class="text-sm font-medium text-gray-700">Branch</span>
-            <select class="text-sm font-semibold text-gray-900 bg-transparent border-none focus:outline-none">
-                <option>Main Office</option>
-                <option>Downtown Branch</option>
-                <option>Uptown Branch</option>
+        <!-- Mobile Menu Toggle -->
+        <button @click="sidebarOpen = true" 
+            class="p-2 -ml-2 text-gray-600 lg:hidden hover:bg-gray-100 rounded-xl transition-colors active:scale-95">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+
+        <!-- Branch Selector (Desktop Only) -->
+        <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-xl transition-all hover:border-[#28A375]/50">
+            <i data-lucide="building-2" class="w-4 h-4 text-gray-400"></i>
+            <span class="text-sm font-medium text-gray-500">Branch</span>
+            <select onchange="updateContext({ active_branch_id: this.value })" 
+                class="text-sm font-bold text-gray-900 bg-transparent border-none focus:outline-none focus:ring-0 cursor-pointer">
+                @foreach($accessibleBranches as $branch)
+                    <option value="{{ $branch->id }}" {{ $activeBranchId == $branch->id ? 'selected' : '' }}>
+                        {{ $branch->name }}
+                    </option>
+                @endforeach
             </select>
         </div>
 
-        <!-- Store Selector -->
-        <div class="flex items-center gap-2 px-3 py-1.5 bg-white border border-gray-200 rounded-lg">
-            <i data-lucide="store" class="w-4 h-4 text-gray-500"></i>
-            <span class="text-sm font-medium text-gray-700">Store</span>
-            <select class="text-sm font-semibold text-gray-900 bg-transparent border-none focus:outline-none">
-                <option>Main Store</option>
-                <option>Warehouse A</option>
-                <option>Warehouse B</option>
+        <!-- Store Selector (Desktop Only) -->
+        @php
+            $activeBranch = $accessibleBranches->where('id', $activeBranchId)->first();
+            $accessibleStores = $activeBranch ? $activeBranch->stores : collect();
+        @endphp
+        <div class="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-xl transition-all hover:border-[#28A375]/50">
+            <i data-lucide="store" class="w-4 h-4 text-gray-400"></i>
+            <span class="text-sm font-medium text-gray-500">Store</span>
+            <select onchange="updateContext({ active_store_id: this.value })"
+                class="text-sm font-bold text-gray-900 bg-transparent border-none focus:outline-none focus:ring-0 cursor-pointer">
+                @foreach($accessibleStores as $store)
+                    <option value="{{ $store->id }}" {{ $activeStoreId == $store->id ? 'selected' : '' }}>
+                        {{ $store->name }}
+                    </option>
+                @endforeach
             </select>
         </div>
 
-        <!-- View All Branches Checkbox -->
-        <label class="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" class="w-4 h-4 text-[#28A375] border-gray-300 rounded focus:ring-[#28A375]">
-            <span class="text-sm text-gray-700">View All Branches</span>
+        <!-- View All Branches (Desktop Only) -->
+        @if(auth()->user()->view_all_branches)
+        <label class="hidden xl:flex items-center gap-2 cursor-pointer group">
+            <input type="checkbox" 
+                onchange="updateContext({ view_all_branches: this.checked })"
+                {{ session('view_all_branches') ? 'checked' : '' }}
+                class="w-4 h-4 text-[#28A375] border-gray-300 rounded focus:ring-[#28A375] transition-all group-hover:border-[#28A375]">
+            <span class="text-sm text-gray-600 group-hover:text-gray-900 transition-colors">All Branches</span>
         </label>
+        @endif
     </div>
     <!-- Right Actions -->
     <div class="flex items-center gap-3">
@@ -92,7 +113,7 @@
                     <span>Lock Screen</span>
                 </a>
 
-                <a href="#"
+                <a href="{{ route('settings.company') }}"
                     class="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors">
                     <i data-lucide="settings" class="w-4 h-4 text-gray-400"></i>
                     <span>Settings</span>

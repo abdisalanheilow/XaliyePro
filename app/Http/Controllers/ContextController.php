@@ -26,7 +26,7 @@ class ContextController extends Controller
         if ($request->has('view_all_branches')) {
             // Only allow if user has the permission
             if ($user->view_all_branches) {
-                session(['view_all_branches' => $request->view_all_branches == 'true']);
+                session(['view_all_branches' => filter_var($request->view_all_branches, FILTER_VALIDATE_BOOLEAN)]);
             }
         }
 

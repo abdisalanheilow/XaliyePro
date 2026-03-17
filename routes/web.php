@@ -349,4 +349,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/session/context', [ContextController::class, 'update'])->name('session.context.update');
 });
 
+
 require __DIR__.'/auth.php';
+
+// Temporary route to clear server cache (Delete this after use!)
+Route::get('/clear-cache', function() {
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    return "Cache cleared successfully! Go back to <a href='/dashboard'>Dashboard</a>";
+});

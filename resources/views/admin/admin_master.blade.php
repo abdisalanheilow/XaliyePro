@@ -136,18 +136,18 @@
     @stack('css')
 </head>
 
-<body class="bg-gray-100">
-    <div class="flex h-screen">
+<body class="bg-gray-100" x-data="{ sidebarOpen: false }">
+    <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
         @include('admin.body.sidebar')
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col overflow-hidden">
+        <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
             <!-- Header -->
             @include('admin.body.header')
 
             <!-- Page Content -->
-            <main class="flex-1 overflow-y-auto bg-gray-100 p-6">
+            <main class="flex-1 overflow-y-auto bg-gray-100 p-4 lg:p-6 custom-scrollbar">
                 @include('admin.body.notifications')
                 @yield('admin')
             </main>
@@ -243,6 +243,27 @@
                 btn.classList.remove('btn-loading-icon');
             });
         });
+
+        // Global Context Handler (Branch/Store switching)
+        window.updateContext = function(data) {
+            fetch('{{ route("session.context.update") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.reload();
+                }
+            })
+            .catch(error => {
+                console.error('Error updating context:', error);
+            });
+        };
     </script>
 
     @stack('scripts')
