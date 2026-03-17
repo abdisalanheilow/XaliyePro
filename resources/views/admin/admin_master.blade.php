@@ -137,12 +137,25 @@
 </head>
 
 <body class="bg-gray-100" x-data="{ sidebarOpen: false }">
-    <div class="flex h-screen overflow-hidden">
+    <div class="flex h-screen overflow-hidden bg-gray-100">
+        <!-- Mobile Overlay -->
+        <div x-show="sidebarOpen" 
+             x-cloak
+             x-transition:enter="transition-opacity ease-linear duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition-opacity ease-linear duration-300"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             @click="sidebarOpen = false"
+             class="fixed inset-0 bg-black/50 z-40 lg:hidden">
+        </div>
+
         <!-- Sidebar -->
         @include('admin.body.sidebar')
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        <div class="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
             <!-- Header -->
             @include('admin.body.header')
 
